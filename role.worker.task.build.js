@@ -1,6 +1,5 @@
 const roleBuilder = {
 
-    /** @param {Creep} creep **/
     run: function(creep) {
 
 	    if(creep.memory.building && creep.carry.energy == 0) {

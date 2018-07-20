@@ -1,15 +1,18 @@
 const settings = require('settings');
 
-const roleWorkDelegate = require('role.work.delegate');
-const roleHarvester = require('role.work.task.harvest');
-const roleUpgrader = require('role.work.task.upgrade');
-const roleBuilder = require('role.work.task.build');
+const roleWorker = require('role.worker.delegate');
+const roleHarvester = require('role.worker.task.harvest');
+const roleUpgrader = require('role.worker.task.upgrade');
+const roleBuilder = require('role.worker.task.build');
 
 module.exports.loop = function () {
     
     // Take creep behaviour from role scripts based on a role set in their memory
     for(let name in Game.creeps) {
         let creep = Game.creeps[name];
+        if(creep.memory.role == 'worker') {
+            roleWorker.run(creep);
+        }
         if(creep.memory.role == 'harvester') {
             roleHarvester.run(creep);
         }
@@ -21,6 +24,7 @@ module.exports.loop = function () {
         }
     }
     
+    const workers = _.filter(Game.creeps, (creep) => creep.memory.role == 'worker');
     const harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
     const upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
     const builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
@@ -43,7 +47,7 @@ module.exports.loop = function () {
     // Auto-spawn harvesters
     let newHarvesterBodyParts = [WORK, CARRY, MOVE]
     let newHarvesterCost = newCreepCost(newHarvesterBodyParts)
-    if(harvesters.length < settings.harvesterSpawnTarget && Game.spawns.Spawn1.energy >= newHarvesterCost) {
+    if( harvesters.length < settings.harvesterSpawnTarget && Game.spawns.Spawn1.energy >= newHarvesterCost) {
         const newHarvesterName = 'Harvester' + Game.time;
         console.log('Spending ' + newHarvesterCost + ' energy to spawn ' + newHarvesterName);
         console.log('#worthit!')
@@ -53,7 +57,7 @@ module.exports.loop = function () {
     // Auto-spawn upgraders AFTER spawning harvesters
     let newUpgraderBodyParts = [WORK, CARRY, MOVE]
     let newUpgraderCost = newCreepCost(newUpgraderBodyParts)
-    if(harvesters.length >= settings.harvesterSpawnTarget
+    if( harvesters.length >= settings.harvesterSpawnTarget
         && upgraders.length < settings.upgraderSpawnTarget
         && Game.spawns.Spawn1.energy >= newUpgraderCost) {
         const newUpgraderName = 'Upgrader' + Game.time;
@@ -65,7 +69,7 @@ module.exports.loop = function () {
     // Auto-spawn builders AFTER spawning harveys and upgraders
     let newBuilderBodyParts = [WORK, CARRY, MOVE]
     let newBuilderCost = newCreepCost(newBuilderBodyParts)
-    if(harvesters.length >= settings.harvesterSpawnTarget
+    if( harvesters.length >= settings.harvesterSpawnTarget
         && upgraders.length >= settings.upgraderSpawnTarget
         && builders.length < settings.builderSpawnTarget
         && Game.spawns.Spawn1.energy >= newBuilderCost) {
@@ -75,7 +79,17 @@ module.exports.loop = function () {
             {memory: {role: 'builder'}});
     }
 
-    
+    // Auto-spawn worker delegates
+    let newWorkerBodyParts = [WORK, CARRY, MOVE]
+    let newWorkerCost = newCreepCost(newWorkerBodyParts)
+    if( workers.length < settings.workerSpawnTarget
+        && Game.spawns.Spawn1.energy >= newWorkerCost) {
+        const newWorkerName = 'Worker' + Game.time;
+        console.log('Spending ' + newWorkerCost + ' energy to spawn ' + newWorkerName);
+        Game.spawns['Spawn1'].spawnCreep(newWorkerBodyParts, newWorkerName,
+            {memory: {role: 'worker'}});
+    }
+
     // Print a spawning message when spawning
     if(Game.spawns['Spawn1'].spawning) {
         const spawningCreep = Game.creeps[Game.spawns['Spawn1'].spawning.name];
