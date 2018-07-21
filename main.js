@@ -1,9 +1,5 @@
 const settings = require('settings');
-
-const roleWorker = require('role.worker.delegate');
-const roleHarvester = require('role.worker.task.harvest');
-const roleUpgrader = require('role.worker.task.upgrade');
-const roleBuilder = require('role.worker.task.build');
+const roleWorker = require('role.worker');
 
 module.exports.loop = function () {
     
@@ -13,26 +9,15 @@ module.exports.loop = function () {
         if(creep.memory.role == 'worker') {
             roleWorker.run(creep);
         }
-        if(creep.memory.role == 'harvester') {
-            roleHarvester.run(creep);
-        }
-        if(creep.memory.role == 'upgrader') {
-            roleUpgrader.run(creep);
-        }
-        if(creep.memory.role == 'builder') {
-            roleBuilder.run(creep);
-        }
+        // if(creep.memory.role == 'harvester') {
+        //     roleHarvester.run(creep);
+        // }
     }
     
     const workers = _.filter(Game.creeps, (creep) => creep.memory.role == 'worker');
-    const harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
-    const upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
-    const builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
 
     const roleCall = () => {
-        console.log(harvesters.length + ' harvesters, '
-            + upgraders.length + ' upgraders, '
-            + builders.length + ' builders')
+        console.log('Current worker count: ' + workers.length + ', target: ' + settings.workerSpawnTarget)
     }
 
     if(Game.time % 20 === 0) {
@@ -43,51 +28,14 @@ module.exports.loop = function () {
     const newCreepCost = bodyParts => {
         return _.reduce(bodyParts, (cost, bodyPart) => cost + BODYPART_COST[bodyPart], 0);
     }
-    
-    // Auto-spawn harvesters
-    let newHarvesterBodyParts = [WORK, CARRY, MOVE]
-    let newHarvesterCost = newCreepCost(newHarvesterBodyParts)
-    if( harvesters.length < settings.harvesterSpawnTarget && Game.spawns.Spawn1.energy >= newHarvesterCost) {
-        const newHarvesterName = 'Harvester' + Game.time;
-        console.log('Spending ' + newHarvesterCost + ' energy to spawn ' + newHarvesterName);
-        console.log('#worthit!')
-        Game.spawns['Spawn1'].spawnCreep(newHarvesterBodyParts, newHarvesterName, {memory: {role: 'harvester'}});
-    }
-    
-    // Auto-spawn upgraders AFTER spawning harvesters
-    let newUpgraderBodyParts = [WORK, CARRY, MOVE]
-    let newUpgraderCost = newCreepCost(newUpgraderBodyParts)
-    if( harvesters.length >= settings.harvesterSpawnTarget
-        && upgraders.length < settings.upgraderSpawnTarget
-        && Game.spawns.Spawn1.energy >= newUpgraderCost) {
-        const newUpgraderName = 'Upgrader' + Game.time;
-        console.log('Spending ' + newUpgraderCost + ' energy to spawn ' + newUpgraderName);
-        Game.spawns['Spawn1'].spawnCreep(newUpgraderBodyParts, newUpgraderName,
-            {memory: {role: 'upgrader'}});
-    }
 
-    // Auto-spawn builders AFTER spawning harveys and upgraders
-    let newBuilderBodyParts = [WORK, CARRY, MOVE]
-    let newBuilderCost = newCreepCost(newBuilderBodyParts)
-    if( harvesters.length >= settings.harvesterSpawnTarget
-        && upgraders.length >= settings.upgraderSpawnTarget
-        && builders.length < settings.builderSpawnTarget
-        && Game.spawns.Spawn1.energy >= newBuilderCost) {
-        const newBuilderName = 'Builder' + Game.time;
-        console.log('Spending ' + newBuilderCost + ' energy to spawn ' + newBuilderName);
-        Game.spawns['Spawn1'].spawnCreep(newBuilderBodyParts, newBuilderName,
-            {memory: {role: 'builder'}});
-    }
-
-    // Auto-spawn worker delegates
+    // Auto-spawn workers
     let newWorkerBodyParts = [WORK, CARRY, MOVE]
     let newWorkerCost = newCreepCost(newWorkerBodyParts)
-    if( workers.length < settings.workerSpawnTarget
-        && Game.spawns.Spawn1.energy >= newWorkerCost) {
+    if( workers.length < settings.workerSpawnTarget && Game.spawns.Spawn1.energy >= newWorkerCost) {
         const newWorkerName = 'Worker' + Game.time;
         console.log('Spending ' + newWorkerCost + ' energy to spawn ' + newWorkerName);
-        Game.spawns['Spawn1'].spawnCreep(newWorkerBodyParts, newWorkerName,
-            {memory: {role: 'worker'}});
+        Game.spawns['Spawn1'].spawnCreep(newWorkerBodyParts, newWorkerName, {memory: {role: 'worker'}});
     }
 
     // Print a spawning message when spawning
