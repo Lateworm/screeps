@@ -7,10 +7,15 @@ const taskUpgrade = require('task.upgrade');
 const roleWorker = {
 
   run: function(creep) {
-		if(creep.carry.energy < creep.carryCapacity) {
+		taskUpgrade(creep)
+
+		if(!creep.memory.upgrading && creep.carry.energy < creep.carryCapacity) {
 			taskHarvest(creep)
+			console.log('if _ harvest');
 		} else {
 			taskDeposit(creep)
+			// TODO: if can't deposit (there's nothing to do) log an inactivity warning
+			console.log('else deposit');
 		}
 	}
     
