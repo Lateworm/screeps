@@ -20,7 +20,8 @@ module.exports.loop = function () {
         console.log('Current worker count: ' + workers.length + ', target: ' + settings.workerSpawnTarget)
     }
 
-    if(Game.time % 20 === 0) {
+    
+    if(Game.time % settings.roleCallOnTick === 0) {
         roleCall();
     }
 
