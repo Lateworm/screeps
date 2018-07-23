@@ -1,7 +1,7 @@
 const settings = {
 
   // Spawn settings
-  workerSpawnTarget: 15,
+  workerSpawnTarget: 50,
 
   // Console settings
   roleCallOnTick: 30,

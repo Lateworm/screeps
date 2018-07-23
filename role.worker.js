@@ -8,14 +8,16 @@ const roleWorker = {
 
   run: function(creep) {
 		taskUpgrade(creep)
+		taskBuild(creep)
 
-		if(!creep.memory.upgrading && creep.carry.energy < creep.carryCapacity) {
+		// if not upgrading and out of energy, harvest
+		if (!creep.memory.upgrading &&
+				!creep.memory.building &&
+				creep.carry.energy < creep.carryCapacity) {
 			taskHarvest(creep)
-			console.log('if _ harvest');
 		} else {
 			taskDeposit(creep)
 			// TODO: if can't deposit (there's nothing to do) log an inactivity warning
-			console.log('else deposit');
 		}
 	}
     
