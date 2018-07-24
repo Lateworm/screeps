@@ -1,3 +1,5 @@
+const settings = require('settings');
+
 const taskBuild = require('task.build');
 const taskDeposit = require('task.deposit');
 const taskHarvest = require('task.harvest');
@@ -7,8 +9,14 @@ const taskUpgrade = require('task.upgrade');
 const roleWorker = {
 
   run: function(creep) {
-		taskUpgrade(creep)
-		taskBuild(creep)
+
+		if (settings.upgrade) {
+			taskUpgrade(creep)
+		}
+		
+		if (settings.build) {
+			taskBuild(creep)
+		}
 
 		// if not upgrading and out of energy, harvest
 		if (!creep.memory.upgrading &&
