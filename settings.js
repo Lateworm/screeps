@@ -1,7 +1,7 @@
 const settings = {
 
   // Spawn settings
-  workerSpawnTarget: 15,
+  workerSpawnTarget: 16,
 
   // Worker settings
   build: true,
