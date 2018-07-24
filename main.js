@@ -31,7 +31,7 @@ module.exports.loop = function () {
     }
 
     // Auto-spawn workers
-    let newWorkerBodyParts = [WORK, CARRY, MOVE]
+    let newWorkerBodyParts = [WORK, CARRY, CARRY, MOVE, MOVE]
     let newWorkerCost = newCreepCost(newWorkerBodyParts)
     if( workers.length < settings.workerSpawnTarget && Game.spawns.Spawn1.energy >= newWorkerCost) {
         const newWorkerName = 'Worker' + Game.time;
