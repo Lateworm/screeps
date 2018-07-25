@@ -1,3 +1,5 @@
+const settings = require('settings');
+
 const taskUpgrade = (creep) => {
 
 		// if upgrading but out of energy, stop upgrading
@@ -15,8 +17,11 @@ const taskUpgrade = (creep) => {
 		// if upgrading, upgrade!
 		if(creep.memory.upgrading) {
 			if(creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
-				// creep.moveTo(creep.room.controller, {visualizePathStyle: {stroke: '#ffffff'}});
-				creep.moveTo(creep.room.controller);
+			    if (settings.showUpgradePath) {
+				    creep.moveTo(creep.room.controller, {visualizePathStyle: settings.upgradePathColour});
+			    } else {
+				    creep.moveTo(creep.room.controller);
+			    }
 			}
 		}
 

@@ -1,3 +1,5 @@
+const settings = require('settings');
+
 const taskDeposit = (creep) => {
 
     var targets = creep.room.find(FIND_STRUCTURES, {
@@ -9,8 +11,11 @@ const taskDeposit = (creep) => {
 
     if(targets.length > 0) {
       if(creep.transfer(targets[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-        // creep.moveTo(targets[0], {visualizePathStyle: {stroke: '#ffffff'}});
-        creep.moveTo(targets[0]);
+        if (settings.showDepositPath) {
+            creep.moveTo(targets[0], {visualizePathStyle: {stroke: settings.depositPathColour}});
+        } else {
+            creep.moveTo(targets[0]);
+        }
       }
     }
 

@@ -19,11 +19,14 @@ const roleWorker = {
 		}
 
 		// if not upgrading and out of energy, harvest
-		if (!creep.memory.upgrading &&
+		if (settings.harvest &&
+				!creep.memory.upgrading &&
 				!creep.memory.building &&
 				creep.carry.energy < creep.carryCapacity) {
 			taskHarvest(creep)
-		} else {
+		}
+		
+		if (settings.deposit) {
 			taskDeposit(creep)
 			// TODO: if can't deposit (there's nothing to do) log an inactivity warning
 		}

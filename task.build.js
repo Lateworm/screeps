@@ -1,3 +1,5 @@
+const settings = require('settings');
+
 const taskBuild = (creep) => {
 
 	if(creep.memory.building && creep.carry.energy == 0) {
@@ -10,15 +12,18 @@ const taskBuild = (creep) => {
 		creep.say('🚧 build');
 	}
 
-	if(creep.memory.building) {
-		let targets = creep.room.find(FIND_CONSTRUCTION_SITES);
-		if(targets.length) {
-			if(creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
-				// creep.moveTo(targets[0], {visualizePathStyle: {stroke: '#ffffff'}});
+	let targets = creep.room.find(FIND_CONSTRUCTION_SITES).sort();
+
+	if(creep.memory.building && targets.length) {
+	    
+		if(creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
+			if (settings.showBuildPath) {
+				creep.moveTo(targets[0], {visualizePathStyle: {stroke: settings.buildPathColour}});
+			} else {
 				creep.moveTo(targets[0]);
-				// TODO: build logic for finding a construction site
 			}
 		}
+
 	}
 
 };

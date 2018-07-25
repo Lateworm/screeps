@@ -17,27 +17,26 @@ module.exports.loop = function () {
     const workers = _.filter(Game.creeps, (creep) => creep.memory.role == 'worker');
 
     const roleCall = () => {
-        console.log('Current worker count: ' + workers.length + ', target: ' + settings.workerSpawnTarget)
+      console.log('Current worker count: ' + workers.length + ', target: ' + settings.workerSpawnTarget)
     }
 
     
     if(Game.time % settings.roleCallOnTick === 0) {
-        roleCall();
+      roleCall();
     }
 
     // Calculate the cost of spawning a creep
     const newCreepCost = bodyParts => {
-        return _.reduce(bodyParts, (cost, bodyPart) => cost + BODYPART_COST[bodyPart], 0);
+      return _.reduce(bodyParts, (cost, bodyPart) => cost + BODYPART_COST[bodyPart], 0);
     }
 
     // Auto-spawn workers
-    let newWorkerBodyParts = [WORK, CARRY, CARRY, MOVE, MOVE]
-    let newWorkerCost = newCreepCost(newWorkerBodyParts)
+    let newWorkerCost = newCreepCost(settings.workerBodyParts)
     if( workers.length < settings.workerSpawnTarget && Game.spawns.Spawn1.energy >= newWorkerCost) {
-        const newWorkerName = 'Worker' + Game.time;
-        console.log('Spending ' + newWorkerCost + ' energy to spawn ' + newWorkerName);
-        Game.spawns['Spawn1'].spawnCreep(newWorkerBodyParts, newWorkerName, {memory: {role: 'worker'}});
-    }
+			const newWorkerName = 'Worker' + Game.time;
+			console.log('Spending ' + newWorkerCost + ' energy to spawn ' + newWorkerName);
+			Game.spawns['Spawn1'].spawnCreep(settings.workerBodyParts, newWorkerName, {memory: {role: 'worker'}});
+		}
 
     // Print a spawning message when spawning
     if(Game.spawns['Spawn1'].spawning) {
