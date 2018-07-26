@@ -1,8 +1,8 @@
 const settings = {
 
   // Spawning
-  workerBodyParts: [WORK, CARRY, MOVE],
-  workerSpawnTarget: 16,
+  workerBodyParts: [WORK, CARRY, CARRY, MOVE, MOVE],
+  workerSpawnTarget: 14,
 
   // Worker tasks
   build: true,
@@ -19,9 +19,8 @@ const settings = {
   showUpgradePath: true,
   upgradePathColour: '#0088ff',
 
-
   // Console
-  roleCallOnTick: 30,
+  SitRepOnTick: 30,
 
 }
 

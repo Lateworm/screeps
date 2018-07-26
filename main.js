@@ -17,12 +17,12 @@ module.exports.loop = function () {
     const workers = _.filter(Game.creeps, (creep) => creep.memory.role == 'worker');
 
     const roleCall = () => {
-      console.log('Current worker count: ' + workers.length + ', target: ' + settings.workerSpawnTarget)
+      console.log('Worker count: ' + workers.length + ', target: ' + settings.workerSpawnTarget)
     }
-
     
-    if(Game.time % settings.roleCallOnTick === 0) {
-      roleCall();
+    if(Game.time % settings.SitRepOnTick === 0) {
+			roleCall();
+			console.log('Energy: ', Game.spawns.Spawn1.energy)
     }
 
     // Calculate the cost of spawning a creep
