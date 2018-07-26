@@ -24,9 +24,7 @@ const roleWorker = {
 				!creep.memory.building &&
 				creep.carry.energy < creep.carryCapacity) {
 			taskHarvest(creep)
-		}
-		
-		if (settings.deposit) {
+		} else {
 			taskDeposit(creep)
 			// TODO: if can't deposit (there's nothing to do) log an inactivity warning
 		}

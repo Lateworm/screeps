@@ -5,3 +5,6 @@ Game.spawns.Spawn1.createCreep([WORK, CARRY, MOVE], "UniqueName", {role: 'harves
 // Console.log the number of harvesters we have
 var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
 console.log('Harvesters: ' + harvesters.length);
+
+
+// console.log(JSON.stringify(creep));

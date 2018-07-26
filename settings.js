@@ -2,12 +2,11 @@ const settings = {
 
   // Spawning
   workerBodyParts: [WORK, CARRY, MOVE],
-  workerSpawnTarget: 10,
+  workerSpawnTarget: 16,
 
   // Worker tasks
   build: true,
   upgrade: true,
-  deposit: false,
   harvest: true,
   
   // Path visualization
@@ -15,9 +14,9 @@ const settings = {
   buildPathColour: '#ff8800',
   showDepositPath: true,
   depositPathColour: '#00ff00',
-  showHarvestPath: false,
+  showHarvestPath: true,
   harvestPathColour: '#ffff00',
-  showUpgradePath: false,
+  showUpgradePath: true,
   upgradePathColour: '#0088ff',
 
 

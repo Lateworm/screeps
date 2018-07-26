@@ -8,7 +8,6 @@ const taskHarvest = (creep) => {
 		modIndex = 0
 	}
 
-	// console.log(JSON.stringify(creep));
 	// const randomSourceIndex = Math.random(0, sources.length-1)
 
 	if(creep.harvest(sources[modIndex]) == ERR_NOT_IN_RANGE) {
