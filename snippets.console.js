@@ -7,4 +7,4 @@ var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harveste
 console.log('Harvesters: ' + harvesters.length);
 
 
-// console.log(JSON.stringify(creep));
+// console.log(JSON.stringify(Game.spawns['Spawn1'], null, '\t'))

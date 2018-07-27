@@ -2,25 +2,27 @@ const settings = {
 
   // Spawning
   workerBodyParts: [WORK, CARRY, CARRY, MOVE, MOVE],
-  workerSpawnTarget: 14,
+  workerSpawnTarget: 8,
 
   // Worker tasks
   build: true,
-  upgrade: true,
+  // deposit: true, currently not implemented
   harvest: true,
+  repair: false,
+  upgrade: false,
   
   // Path visualization
   showBuildPath: true,
-  buildPathColour: '#ff8800',
+  buildPathColour: '#ff8800', // orange
   showDepositPath: true,
-  depositPathColour: '#00ff00',
+  depositPathColour: '#00ff00', // green
   showHarvestPath: true,
-  harvestPathColour: '#ffff00',
+  harvestPathColour: '#ffff00', // yeller
   showUpgradePath: true,
-  upgradePathColour: '#0088ff',
+  upgradePathColour: '#0088ff', // cyan/blue
 
   // Console
-  SitRepOnTick: 30,
+  SitRepOnTick: 10,
 
 }
 
