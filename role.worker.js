@@ -10,22 +10,30 @@ const roleWorker = {
 
   run: function(creep) {
 
-		if (settings.upgrade) {
-			taskUpgrade(creep)
+		// if out of energy, harvest
+		if (creep.carry.energy === 0) {
+			creep.memory.task = 'harvest';
+			creep.say('harvest');
 		}
 
-		if (settings.build) {
-			taskBuild(creep)
+
+
+		if (settings.upgrade) {
+			taskUpgrade(creep)
 		}
 
 		if (settings.repair) {
 			taskRepair(creep)
 		}
 
+		if (settings.build) {
+			taskBuild(creep)
+		}
+
 		// if not able to work, then harvest or deposit
 		if (settings.harvest &&
-				!creep.memory.upgrading &&
-				!creep.memory.building &&
+				creep.memory.task !== 'upgrade' &&
+				creep.memory.task !== 'build' &&
 				creep.carry.energy < creep.carryCapacity) {
 			taskHarvest(creep)
 		} else {

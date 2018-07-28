@@ -2,28 +2,23 @@ const settings = require('settings');
 
 const taskUpgrade = (creep) => {
 
-		// if upgrading but out of energy, stop upgrading
-		if(creep.memory.upgrading && creep.carry.energy == 0) {
-			creep.memory.upgrading = false;
-			creep.say('🔄 harvest');
-		}
+	if(creep.memory.task !== 'upgrade' && creep.carry.energy == creep.carryCapacity) {
+		creep.memory.task = 'upgrade';
+		creep.say('upgrade');
+	}
 
-		// if not upgrading but full of energy, start upgrading
-		if(!creep.memory.upgrading && creep.carry.energy == creep.carryCapacity) {
-			creep.memory.upgrading = true;
-			creep.say('⚡ upgrade');
-		}
+	const target = creep.room.controller
 
-		// if upgrading, upgrade!
-		if(creep.memory.upgrading) {
-			if(creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
-			    if (settings.showUpgradePath) {
-				    creep.moveTo(creep.room.controller, {visualizePathStyle: settings.upgradePathColour});
-			    } else {
-				    creep.moveTo(creep.room.controller);
-			    }
+	// TODO: might need to handle a fully upgraded controller at some point
+	if(creep.memory.task === 'upgrade' && target.length) {
+		if(creep.upgradeController(target) == ERR_NOT_IN_RANGE) {
+			if (settings.showUpgradePath) {
+				creep.moveTo(target, {visualizePathStyle: {stroke: settings.upgradePathColour}});
+			} else {
+				creep.moveTo(target);
 			}
 		}
+	}
 
 };
 
