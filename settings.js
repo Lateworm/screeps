@@ -1,17 +1,20 @@
 const settings = {
 
   // Spawning
-  workerBodyParts: [WORK, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE],
-  workerSpawnTarget: 8,
+  workerBodyParts: [WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE],
+  workerSpawnTarget: 10,
+  repairerSpawnTarget: 1,
 
-  // Worker tasks
-  build: true,
-  repair: true,
-  upgrade: true,
+  // Tasks
   harvest: true,
-  // deposit: true, currently not implemented
+  build: true,
+  upgrade: true,
+  store: true,
 
-  workerTaskPriorities: ['build', 'repair', 'upgrade', 'harvest', 'deposit'],
+  // Structural repairs
+  repair: true,
+  wallRepairTarget: 7 * 1000,
+  containerRepairTarget: 80 * 1000,
   
   // Path visualization
   showBuildPath: true,
@@ -26,7 +29,7 @@ const settings = {
   upgradePathColour: '#0088ff', // cyan/blue
 
   // Console
-  SitRepOnTick: 10,
+  SitRepOnTick: 15,
 
 }
 

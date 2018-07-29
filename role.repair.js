@@ -4,10 +4,10 @@ const taskBuild = require('task.build');
 const taskDeposit = require('task.deposit');
 const taskHarvest = require('task.harvest');
 const taskRepair = require('task.repair');
+const taskStore = require('task.store');
 const taskUpgrade = require('task.upgrade');
 
 const roleWorker = {
-
   run: function(creep) {
 
 		// if out of energy, harvest
@@ -16,18 +16,20 @@ const roleWorker = {
 			creep.say('harvest');
 		}
 
-
-
 		if (settings.upgrade) {
 			taskUpgrade(creep)
 		}
 
-		if (settings.repair) {
-			taskRepair(creep)
-		}
-
 		if (settings.build) {
 			taskBuild(creep)
+		}
+
+		if (settings.store) {
+			taskStore(creep)
+		}
+
+		if (settings.repair) {
+			taskRepair(creep)
 		}
 
 		// if not able to work, then harvest or deposit
@@ -40,8 +42,8 @@ const roleWorker = {
 			taskDeposit(creep)
 			// TODO: if can't deposit (there's nothing to do) log an inactivity warning
 		}
-	}
-    
+
+	} 
 };
 
 module.exports = roleWorker;

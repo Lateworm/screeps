@@ -1,18 +1,21 @@
 const settings = require('settings');
 
 const taskRepair = (creep) => {
+	const targets = creep.room.find(FIND_STRUCTURES, {
+		filter: object => object.hits < object.hitsMax || 
+			(object.structureType === 'constructedWall' && object.hits < settings.wallRepairTarget) ||
+			(object.structureType === 'container' && object.hits < settings.containerRepairTarget)
+		// filter: object => object.hits < 3000 && object.hits !== 0
+	}).sort((a,b) => a.hits - b.hits);
 
-	if(creep.memory.task !== 'repair' && creep.carry.energy == creep.carryCapacity) {
+	if(Game.time % settings.SitRepOnTick === 0) {
+		console.log('Structures to repair: ' + targets.length)
+	}
+
+	if(creep.memory.task !== 'repair' && creep.carry.energy === creep.carryCapacity) {
 		creep.memory.task = 'repair';
 		creep.say('repair');
 	}
-
-  const targets = creep.room.find(FIND_STRUCTURES, {
-		// filter: object => object.hits < object.hitsMax
-		filter: object => object.hits < 3000 && object.hits !== 0
-  }).sort(); // TODO: sort by hit points so we can always repair the weakest link
-
-	targets.sort((a,b) => a.hits - b.hits);
 
   if(creep.memory.task === 'repair' && targets.length) {
 		if(creep.repair(targets[0]) == ERR_NOT_IN_RANGE) {
@@ -23,7 +26,6 @@ const taskRepair = (creep) => {
 			}
 		}
 	}
-	
 }
 
 module.exports = taskRepair;

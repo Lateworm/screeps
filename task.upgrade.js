@@ -10,7 +10,10 @@ const taskUpgrade = (creep) => {
 	const target = creep.room.controller
 
 	// TODO: might need to handle a fully upgraded controller at some point
-	if(creep.memory.task === 'upgrade' && target.length) {
+	if(creep.memory.task === 'upgrade') {
+
+		
+
 		if(creep.upgradeController(target) == ERR_NOT_IN_RANGE) {
 			if (settings.showUpgradePath) {
 				creep.moveTo(target, {visualizePathStyle: {stroke: settings.upgradePathColour}});
@@ -18,8 +21,8 @@ const taskUpgrade = (creep) => {
 				creep.moveTo(target);
 			}
 		}
-	}
 
+	}
 };
 
 module.exports = taskUpgrade;
