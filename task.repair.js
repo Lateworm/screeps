@@ -2,19 +2,15 @@ const settings = require('settings');
 
 const taskRepair = (creep) => {
 	const targets = creep.room.find(FIND_STRUCTURES, {
-		filter: object => object.hits < object.hitsMax || 
+		filter: object => (object.hits < object.hitsMax) || 
 			(object.structureType === 'constructedWall' && object.hits < settings.wallRepairTarget) ||
 			(object.structureType === 'container' && object.hits < settings.containerRepairTarget)
-		// filter: object => object.hits < 3000 && object.hits !== 0
-	}).sort((a,b) => a.hits - b.hits);
+			// TODO: the wall/container logic doesn't work because the settings are < object.hitsMax
+	}).sort((a,b) => a.hits - b.hits); // causes repairer to jump between targets constantly
 
-	if(Game.time % settings.SitRepOnTick === 0) {
-		console.log('Structures to repair: ' + targets.length)
-	}
-
-	if(creep.memory.task !== 'repair' && creep.carry.energy === creep.carryCapacity) {
+	if(creep.memory.task !== 'repair' && creep.carry.energy === creep.carryCapacity && targets.length) {
 		creep.memory.task = 'repair';
-		creep.say('repair');
+		if(settings.say){creep.say('repair')};
 	}
 
   if(creep.memory.task === 'repair' && targets.length) {

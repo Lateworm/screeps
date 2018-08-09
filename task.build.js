@@ -7,7 +7,7 @@ const taskBuild = (creep) => {
 		creep.carry.energy === creep.carryCapacity &&
 		targets.length) {
 		creep.memory.task = 'build';
-		creep.say('build');
+		if(settings.say){creep.say('build')};
 	}
 
 	if(creep.memory.task === 'build' && targets.length) {

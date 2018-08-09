@@ -10,11 +10,16 @@ const taskStore = (creep) => {
     containers[0].store.energy < containers[0].storeCapacity
     ) {
     creep.memory.task = 'store';
-    creep.say('store');
+    if(settings.say){creep.say('store')};
   }
 
   if(creep.memory.task === 'store' && containers.length) {
-    if(creep.transfer(containers[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {creep.moveTo(containers[0]);
+    if(creep.transfer(containers[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+      if (settings.showStorePath) {
+        creep.moveTo(containers[0], {visualizePathStyle: {stroke: settings.storePathColour}});
+      } else {
+        creep.moveTo(containers[0]);
+      }
     }
   }
 }

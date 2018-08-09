@@ -1,19 +1,19 @@
 const settings = {
 
   // Spawning
-  workerBodyParts: [WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE],
-  workerSpawnTarget: 10,
-  repairerSpawnTarget: 1,
+  workerBodyParts: [WORK, CARRY, MOVE],
+  workerSpawnTarget: 12,
 
-  // Tasks
+  // Work Role
   harvest: true,
   build: true,
   upgrade: true,
-  store: true,
+  store: false,
+  WorkPriorities: ['build', 'repair', 'upgrade', 'deposit', 'store', 'harvest'],
 
   // Structural repairs
   repair: true,
-  wallRepairTarget: 7 * 1000,
+  wallRepairTarget: 100,
   containerRepairTarget: 80 * 1000,
   
   // Path visualization
@@ -25,11 +25,16 @@ const settings = {
   harvestPathColour: '#ffff00', // yeller
   showRepairPath: true,
   repairPathColour: '#ff00ff', // magenta
+  showStorePath: true,
+  storePathColour: '009900', // green
   showUpgradePath: true,
   upgradePathColour: '#0088ff', // cyan/blue
 
+  // Speech bubbles
+  say: false,
+
   // Console
-  SitRepOnTick: 15,
+  SitRepOnTick: 5,
 
 }
 

@@ -2,8 +2,6 @@ const settings = require('settings');
 
 const taskHarvest = (creep) => {
 
-
-
 	const sources = creep.room.find(FIND_SOURCES, {
 		filter: sources => sources.energy > 0
 	}).sort();

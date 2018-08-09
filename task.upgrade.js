@@ -4,7 +4,7 @@ const taskUpgrade = (creep) => {
 
 	if(creep.memory.task !== 'upgrade' && creep.carry.energy == creep.carryCapacity) {
 		creep.memory.task = 'upgrade';
-		creep.say('upgrade');
+		if(settings.say){creep.say('upgrade')};
 	}
 
 	const target = creep.room.controller
