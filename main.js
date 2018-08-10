@@ -3,7 +3,7 @@ const roleWorker = require('role.work');
 
 module.exports.loop = function () {
 
-  console.log('Tick ' + Game.time)
+  console.log('----- Tick ' + Game.time + ' -----')
   
   // Take creep behaviour from role scripts based on a role set in their memory
   for(let name in Game.creeps) {

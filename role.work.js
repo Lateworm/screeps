@@ -3,9 +3,14 @@ const settings = require('settings');
 const taskBuild = require('task.build');
 const taskDeposit = require('task.deposit');
 const taskHarvest = require('task.harvest');
-const taskRepair = require('task.repair');
+
+const taskRepair = require('task_repair');
+const vetRepair = require('vet_repair');
+
 const taskStore = require('task.store');
-const taskUpgrade = require('task.upgrade');
+
+const taskUpgrade = require('task_upgrade');
+const vetUpgrade = require('vet_upgrade');
 
 const roleWorker = {
   run: function(creep) {
@@ -16,12 +21,19 @@ const roleWorker = {
 			if(settings.say){creep.say('harvest')};
 		}
 
-		if (settings.upgrade) {
-			taskUpgrade(creep)
-		}
+		// Choose a task, bottommost is highest priority
+		vetUpgrade(creep)
+		vetRepair(creep)
 
-		if (settings.repair) {
-			taskRepair(creep)
+		switch (creep.memory.task) {
+			case 'upgrade':
+				taskUpgrade(creep)
+				break;
+			case 'repair':
+				taskRepair(creep)
+				break;
+			default:
+				console.log('reached end of task switch')
 		}
 
 		if (settings.store) {

@@ -9,11 +9,11 @@ const settings = {
   build: true,
   upgrade: true,
   store: false,
-  WorkPriorities: ['build', 'repair', 'upgrade', 'deposit', 'store', 'harvest'],
+  // WorkPriorities: ['build', 'repair', 'upgrade', 'deposit', 'store', 'harvest'],
 
   // Structural repairs
-  repair: true,
-  wallRepairTarget: 100,
+  repair: false,
+  wallRepairTarget: 10 * 1000,
   containerRepairTarget: 80 * 1000,
   
   // Path visualization
